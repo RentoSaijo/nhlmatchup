@@ -9,25 +9,23 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
 
-const GAME_DATA = [
+const GAMES = [
     {
-        id: "COL@FLA-2025-09-09",
-        away: { abbr: "COL" },
-        home: { abbr: "FLA" },
-        dateISO: "2025-09-09",
-        startET: "22:00",
+        id: "2025020001"
+    },
+    {
+        id: "2025020002"
     },
 ];
 
 export default function NHLMatchup() {
-    const [gameId, setGameId] = useState(GAME_DATA[0]?.id);
+    const [gameId, setGameId] = useState(GAMES[0]?.id);
     const game = useMemo(
-        () => GAME_DATA.find((g) => g.id === gameId) ?? GAME_DATA[0],
+        () => GAMES.find((g) => g.id === gameId) ?? GAMES[0],
         [gameId]
     );
 
@@ -46,7 +44,7 @@ export default function NHLMatchup() {
 
         const a = document.createElement("a");
         a.href = dataUrl;
-        a.download = `${game.away.abbr}@${game.home.abbr}_${game.dateISO}.png`;
+        a.download = `${game.id}.png`;
         a.click();
     };
 
@@ -55,16 +53,15 @@ export default function NHLMatchup() {
             {/* Center a 1080px column; place controls ABOVE the outline and centered horizontally */}
             <div className="w-[1080px] mx-auto">
                 <div className="flex items-center justify-center gap-3 mb-4">
-                    <Select value={gameId} onValueChange={(v) => setGameId(v)}>
-                        <SelectTrigger className="w-[160px] border border-[#1EE6FF] rounded-4xl text-white">
-                            <SelectValue placeholder="Select Game ID" />
+                    <Select defaultValue={GAMES[0].id} onValueChange={(v) => setGameId(v)}>
+                        <SelectTrigger className="w-[`120px] border border-[#1EE6FF] rounded-4xl text-white">
+                            <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Games</SelectLabel>
-                                {GAME_DATA.map((g) => (
-                                    <SelectItem key={g.id} value={g.id}>
-                                        {g.away.abbr} @ {g.home.abbr} — {g.dateISO} {g.startET} ET
+                                {GAMES.map((g) => (
+                                    <SelectItem key={g.id} value={g.id} className="font-mono tabular-nums">
+                                        {g.id}
                                     </SelectItem>
                                 ))}
                             </SelectGroup>
