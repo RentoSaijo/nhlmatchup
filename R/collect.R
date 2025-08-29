@@ -54,6 +54,25 @@ square_image <- function(paths) {
   }
   invisible(TRUE)
 }
+get_player_headshots <- function(teams) {
+  SEASON <- 20252026
+  PLAYER_TYPES <- c('forwards', 'defensemen', 'goalies')
+  for (team in teams) {
+    for (player_type in PLAYER_TYPES) {
+      player_ids <- get_team_roster(team, SEASON, player_type)$id
+      for (player_id in player_ids) {
+        url <- sprintf(
+          'https://assets.nhle.com/mugs/nhl/%s/%s/%s.png',
+          SEASON,
+          team,
+          player_id
+        )
+        path <- sprintf('assets/headshots/%s.png', player_id)
+        GET(url, write_disk(path, overwrite=TRUE))
+      }
+    }
+  }
+}
 
 # Get team logos.
 teams <- get_team_logos()
@@ -61,3 +80,6 @@ square_image(teams$paths)
 teams <- teams %>% 
   filter(teams!='NHL')
 teams <- teams$teams
+
+# Get player head-shots.
+get_player_headshots(teams)
