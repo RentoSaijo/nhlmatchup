@@ -54,7 +54,7 @@ export default function NHLMatchup() {
             <div className="w-[1080px] mx-auto">
                 <div className="flex items-center justify-center gap-3 mb-4">
                     <Select defaultValue={GAMES[0].id} onValueChange={(v) => setGameId(v)}>
-                        <SelectTrigger className="w-[`120px] border border-[#1EE6FF] rounded-4xl text-white">
+                        <SelectTrigger className="w-[110px] border border-[#1EE6FF] rounded-4xl text-white bg-[#202A35]">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -68,7 +68,7 @@ export default function NHLMatchup() {
                         </SelectContent>
                     </Select>
 
-                    <Button onClick={onDownload} className="border border-[#1EE6FF] rounded-4xl">
+                    <Button onClick={onDownload} className="w-[110px] border border-[#1EE6FF] rounded-4xl bg-[#202A35]">
                         <Download className="w-4 h-4" /> Download
                     </Button>
                 </div>
