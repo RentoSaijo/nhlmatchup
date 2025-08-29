@@ -4,11 +4,15 @@ library(httr)
 library(rsvg)
 library(magick)
 library(tools)
+suppressMessages(library(tidyverse))
 
 # Set helpers.
 get_team_logos <- function() {
-  tri_codes <- get_teams()$triCode
+  teams <- get_teams() %>% 
+    filter(triCode!='ARI')
+  tri_codes <- unique(teams$triCode)
   paths <- c()
+  teams <- c()
   for (tri_code in tri_codes) {
     tryCatch({
       url <- sprintf(
@@ -20,9 +24,10 @@ get_team_logos <- function() {
       path <- sprintf('assets/logos_original/%s.png', tri_code)
       writeBin(png, path)
       paths <- append(paths, path)
+      teams <- append(teams, tri_code)
     }, error=function(e) {})
   }
-  return(paths)
+  return(data.frame(teams, paths))
 }
 square_image <- function(paths) {
   DIRECTORY_OUT='assets/logos_squared'
@@ -51,5 +56,8 @@ square_image <- function(paths) {
 }
 
 # Get team logos.
-paths <- get_team_logos()
-square_image(paths)
+teams <- get_team_logos()
+square_image(teams$paths)
+teams <- teams %>% 
+  filter(teams!='NHL')
+teams <- teams$teams
