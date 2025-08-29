@@ -5,10 +5,8 @@ suppressMessages(library(tidyverse))
 # Source helper functions.
 source('R/utility.R')
 
-# Set colors.
-primary <- '#1EE6FF'
-secondary <- '#D443FF'
-background <- '#202A35'
+# Get today's date.
+today <- Sys.Date()
 
 # Match NHL and ESPN games.
 events_20252026 <- get_espn_events(20251007, 20260418) %>% 
